@@ -1,0 +1,151 @@
+
+#wallet .top{
+    width:350px;
+    height:140px;
+    margin:20px auto;
+    background:linear-gradient(180deg,rgba(90,174,253,1) 0%,rgba(100,199,232,1) 100%);
+    border-radius:10px;
+    color:#fff;
+    text-align: center;
+    padding:20px 0;
+}
+#wallet .top p{
+    color:#fff;
+    font-size: 16px;
+}
+#wallet .top h3{
+    font-size: 26px;
+    margin-bottom:15px;
+}
+#wallet .top .btn button{
+    display:inline-block;
+    width:79px;
+    height:30px;
+    line-height:30px;
+    text-align: center;
+    background:rgba(255,255,255,1);
+    opacity:0.5;
+    color:blue;
+    font-size:14px;
+    border-radius:14px;
+    font-weight: bold;
+  }
+  #wallet .top .btn a:first-child{
+      margin-right:10px;
+  }
+
+  /* 充值和提现 */
+#chongzhi{
+    background-color: #F8F9FD;
+    height:100%;
+}
+#chongzhi .input1{
+    margin-top:10px;
+}
+#chongzhi .input1 input{
+    border:none;
+    outline: none;
+    font-size:14px;
+}
+#chongzhi .fangshi p{
+    color:#333333;
+    background-color: #fff;
+    padding:10px;
+}
+#chongzhi .fangshi ul{
+    padding:0 15px;
+}
+#chongzhi .fangshi ul li{
+    background-color: #fff;
+    padding:12px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+#chongzhi .fangshi ul li div img{
+    width:24px;
+    height:24px;
+    vertical-align: -5px;
+    margin-right:5px;
+}
+#chongzhi .fangshi ul li input{
+    width:18px;
+    height:18px;
+}
+#chongzhi .btn{
+    text-align: center;
+    margin-top:50px;
+}
+#chongzhi .btn a{
+    display:inline-block;
+    width:211px;
+    height:42px;
+    line-height:42px;
+    text-align: center;
+    background:#14A9F8;
+    font-size:14px;
+    border-radius:20px;
+    color:#fff;
+}
+#chongzhi .xianxia{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#chongzhi .xianxia>img{
+    width:10px;
+    height:16px;
+}
+/* 线下充值 */
+#xianxia{
+    background-color:#f5f5f5;
+    height:100%;
+}
+#xianxia>p{
+    background-color:#fee8e8;
+    text-align: center;
+    font-size:12px;
+    padding:5px;
+    color:#e22a1f;
+    margin-bottom: 0;
+}
+#xianxia .xinxi{
+    background-color:#fff;
+    padding:0 20px;
+    font-size:15px;
+}
+#xianxia .xinxi li{
+    padding:15px 0;
+    border-bottom:1px solid #f5f5f5;
+    display: flex;
+    align-items: center;
+}
+#xianxia .xinxi li span:first-child{
+    width:20%;
+    margin-right: 10px;
+}
+#xianxia .input1{
+    margin-top:10px;
+}
+#xianxia .input1 input{
+    border:none;
+    outline: none;
+    font-size:14px;
+}
+#xianxia .btn{
+    text-align: center;
+    margin-top:30px;
+}
+#xianxia .btn button{
+    display:inline-block;
+    width:211px;
+    height:42px;
+    /*line-height:42px;*/
+    text-align: center;
+    background:#e22a1f;
+    font-size:14px;
+    border-radius:20px;
+    color:#fff;
+}
