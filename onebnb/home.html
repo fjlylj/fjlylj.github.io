@@ -1,0 +1,3399 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="csrf-token" content="vGuC9ZhKjQynIzlEwlngEdTpk0836K34wwPzXZWJ">
+    <title>BlockBank</title>
+    <link rel="shortcut icon" href="/src/asserts/icon/logohd.png">
+    <link href="https://app.blockbank.pro/static/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://app.blockbank.pro/static/jquery-1.11.0.min.js"></script>
+    <script src="https://app.blockbank.pro/static/mui.js"></script>
+    <style>
+        .layercss {
+            background: #ff00ff;
+        }
+
+        body {
+            height: 100vh;
+            background-color: #280c28;
+            background-position-y: 60px;
+            padding: 0px 20px;
+        }
+
+        header {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            /* padding: 0px 20px; */
+        }
+
+        header .logo {
+            height: 70px;
+        }
+
+        .showInfo {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .showInfo p {
+            /* margin: 10px 0px; */
+            font-size: 30px;
+            color: #fff;
+            font-weight: 500;
+            outline: #bb39b5;
+            text-shadow: 0px 0px 30px #bb39b5;
+            -webkit-text-stroke: #bb39b5;
+            text-shadow: .2rem 0rem .5rem #bb39b5, -.2rem 0rem .5rem #bb39b5, 0rem .2rem .5rem #bb39b5, 0rem -.2rem .5rem #bb39b5;
+            -webkit-text-stroke-width: 1px;
+        }
+
+        .showInfo p.nodeName {
+            margin: 0px;
+        }
+
+        .showInfo p.nodeValue {
+            font-size: 60px;
+        }
+
+        .showInfo .balance {
+            font-size: 14px;
+            color: #fff;
+            -webkit-text-stroke: #fff !important;
+            -webkit-text-stroke-width: 1px;
+            text-shadow: none !important;
+            font-weight: 300;
+            outline: none !important;
+            margin-top: -10px;
+        }
+
+        .showInfo .buyBNB {
+            height: 40px;
+            padding: 0px 30px;
+            background-color: #ff00ff;
+            color: #fff;
+            font-size: 20px;
+            outline: none;
+            font-weight: 500;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .showInfo .sharename {
+            margin-top: 40px;
+            font-size: 20px;
+            -webkit-text-stroke: #fff !important;
+            -webkit-text-stroke-width: 1px;
+            text-shadow: none;
+            font-weight: 300;
+        }
+
+        .showInfo .sharerAddress {
+            width: 250px;
+            height: 40px;
+            line-height: 40px;
+            margin: -10px auto 0px;
+            border: 1px solid #ff00ff;
+            background-color: #690968;
+            -webkit-text-stroke: #fff !important;
+            -webkit-text-stroke-width: 1px;
+            font-size: 20px;
+            font-weight: 300;
+            border-radius: 10px;
+            text-shadow: none;
+            padding: 0px 20px;
+        }
+
+        .db_item {
+            color: #fff;
+            /* height: 400px; */
+            background: #343a40;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 30px;
+        }
+
+        .db_item:nth-of-type(1) {
+            margin-top: 30px;
+        }
+
+        .db_item>p {
+            padding: 10px 0px;
+            border-bottom: 1px solid #222223;
+        }
+
+        .content {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .content-item {
+            width: 48%;
+        }
+
+        .content-item:nth-of-type(3),
+        .content-item:nth-of-type(4) {
+            margin-top: 20px;
+        }
+
+        .content-item .content-value {
+            height: 46px;
+            background-color: #2d3238;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .content-item p {
+            margin: 0px 0px 10px;
+        }
+
+        .level {
+            font-size: 16px;
+            padding: 0px 5px;
+        }
+
+        #sharerAddress {
+            color: #fff;
+            text-align: center;
+        }
+
+        #upgrade {
+
+            height: 40px;
+            background-color: #ff00ff;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            font-weight: 400;
+            border: none;
+            border-radius: 5px;
+            margin: auto 0;
+            padding: 0px 5px;
+        }
+
+        #withdraw {
+            margin-top: 20px;
+            width: 150px;
+            height: 40px;
+            background-color: #ff00ff;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            font-weight: 400;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .footer img {
+            width: 40px;
+        }
+
+        .copyright {
+            height: 40px;
+            margin: 20px 0px;
+            color: 14px;
+            text-align: center;
+            color: #781077;
+        }
+    </style>
+</head>
+
+<body class="zw-style"
+    style="background-image: url(/src/asserts/icon/BKBKhd_bg.jpg);background-repeat:no-repeat;background-size:contain">
+    <header>
+        <div class="logo">
+            <a href="/"><img style="height:30px" src="/src/asserts/icon/logohd.png" alt=""></a>
+        </div>
+        <div class="wallet">
+            <span class="accountAddress" style="vertical-align: middle;"></span>
+            <img src="/src/asserts/icon/wallet.png" alt="" onclick="connectWallet()" style="height: 15px;">
+        </div>
+    </header>
+
+    <div class="showInfo">
+        <p class="nodeName">节点总数</p>
+        <p class="nodeValue" id="nodeValue">0</p>
+        <p>
+        <div><img src="/src/asserts/icon/BNBpic.png" style="width: 126px;margin-top: -20px;" alt=""></div>
+        <button id="buy" class="buyBNB" onclick="newbuy()">投入<span id="buyAmount">1</span> BNB</button>
+        </p>
+        <p class="balance">钱包余额(BNB)： <span id="balance">00.000000</span></p>
+        <p class="sharename">分享人地址</p>
+        <input onfocus="handleFocus()" placeholder="请输入分享人地址" onblur="handleBlur()" type="text" class="sharerAddress"
+            id="sharerAddress" value="" />
+    </div>
+
+    <div class="dashboard">
+        <div class="db_item">
+            <p class="title">
+                个人资料
+            </p>
+            <div class="content">
+                <div class="content-item">
+                    <p>我的节点</p>
+                    <div class="content-value">
+                        <div id="memberId">NO.0</div>
+                        <div style="color:#949494" id="time">2022/05/25 22:09:21</div>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <p>我的等级</p>
+                    <div style="display: flex;justify-content: space-between;">
+                        <div class="content-value">
+                            <span class="level" style="line-height: 36px;" id="level">V0</span>
+                        </div>
+                        <button class="upgrade" id="upgrade" style="line-height: 36px;background-color: #ccc;"
+                            onclick="upgradeLevel()">可升级到V1</button>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <p>我的地址</p>
+                    <div class="content-value myAddress" style="line-height: 36px; display: flex;"><span
+                            class="accountAddress"></span><img
+                            style="width: 15px; height:15px;margin: auto 0;margin-left: 10px;"
+                            src="/src/asserts/icon/copy button.png" alt=""></div>
+                </div>
+                <div class="content-item">
+                    <p>已提币总数</p>
+                    <div class="content-value" style="line-height: 36px; text-align:left;font-size: 16px;"
+                        id="withdrew">00.00</div>
+                </div>
+            </div>
+        </div>
+        <div class="db_item">
+            <p class="title">
+                节点奖励
+            </p>
+            <div class="content">
+                <div class="content-item">
+                    <div class="content-value">
+                        <div>后70个节点
+                        </div>
+                        <div id="bonus24">0.000000 NB</div>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <div class="content-value">
+                        <div>前30个节点</div>
+                        <div id="bonus23">0.000000 BNB</div>
+                    </div>
+                </div>
+                <div class="content-item">
+                    <p>分享收入(BNB)</p>
+                    <div class="content-value" id="bonus21" style="line-height: 36px; text-align:left;font-size: 16px;">
+                        00.000000</div>
+                </div>
+                <div class="content-item">
+                    <p>邀请节点（个）</p>
+                    <div class="content-value" id="invitationNumber"
+                        style="line-height: 36px; text-align:left;font-size: 16px;">0</div>
+                </div>
+                <div class="content-item" style="width:100%;">
+                    <p style="margin-top:10px;">邀请链接</p>
+                    <div class="content-value tkl"
+                        style="width:100%;line-height: 36px; text-align:center;font-size: 16px;">
+                        <span id="share_url" class=".tkl">https://www.xxxx....xxxx/xxxx.com</span> <img
+                            style="width: 15px;" src="/src/asserts/icon/copy button.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="db_item">
+            <p class="title">
+                我的资产
+            </p>
+            <div class="content">
+                <div class="content-item">
+                    <p>可提币数量</p>
+                    <div class="content-value" style="line-height: 36px; text-align:left;font-size: 16px;"
+                        id="canWithdraw">00.000000</div>
+                </div>
+                <div class="content-item">
+                    <p>提币</p>
+                    <div class="content-value" style="line-height: 36px; text-align:left;font-size: 16px;">
+                        <input type="number" name="withdraw_amount"
+                            style="color:#fff;background: transparent;margin:0px;padding:0px;width: 100%;outline: none;border:none"
+                            id="insetmoney" placeholder="输入提币数量">
+                    </div>
+                </div>
+
+                <div style="text-align: center;width:100%">
+                    <button id="withdraw" onclick="tb()">提取</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <a href="">
+            <img src="/src/asserts/icon/twitter_ico.png" alt="">
+        </a>
+        <a href="">
+            <img src="/src/asserts/icon/telegram_ico.png" alt="">
+        </a>
+        <a href="">
+            <img src="/src/asserts/icon/mail_ico.png" alt="">
+        </a>
+    </div>
+    <div class="copyright">
+        ©2022 BlockBank. All Rights Reserved
+    </div>
+</body>
+<script src="https://app.blockbank.pro/static/layer.js"></script>
+<script src="https://app.blockbank.pro/static/zw.js"></script>
+<script src="https://app.blockbank.pro/static/site.js"></script>
+<script src="https://app.blockbank.pro/static/lrz.all.bundle.js"></script>
+<script src="https://app.blockbank.pro/static/swiper-3.4.1.min.js"></script>
+<script src="https://app.blockbank.pro/static/index.js"></script>
+<script src="https://app.blockbank.pro/static/tpl.js"></script>
+<script src="https://app.blockbank.pro/static/qs.js"></script>
+<script src="https://app.blockbank.pro/static/day.js"></script>
+
+<script src="https://app.blockbank.pro/static/mui.picker.js"></script>
+<script src="https://app.blockbank.pro/static/mui.poppicker.js"></script>
+<script src="https://app.blockbank.pro/static/qrcode.js"></script>
+<script src="https://app.blockbank.pro/static/clipboard.min.js"></script>
+
+
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+
+<script>
+    let nglAddress = "0x39D1B9a32337f13dCE15C2F8B4cf2a8aEc57F860";
+    let storageAddress = "0x9bea8B58cb766a98D0F156260f68b303320a4Ef5";
+    let storageABI = [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "LOGIC_CONTRACT_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MANAGER_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_memberId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "addLevelId",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "addMemberId",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "oldContract",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "start",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "end",
+						"type": "uint256"
+					}
+				],
+				"name": "backupOldContractMember",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "depositToMarket",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "depositToPlatform",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "depositToStatic",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "getAmountToLevel",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "inviterId",
+						"type": "uint256"
+					}
+				],
+				"name": "getDirectInvitation",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "getIsDeposit",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "levelId",
+						"type": "uint8"
+					}
+				],
+				"name": "getLevel",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "id",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint248",
+								"name": "front",
+								"type": "uint248"
+							},
+							{
+								"internalType": "uint256",
+								"name": "back",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "value",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct NGLStruct.Level",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getLevelId",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMarketLevelFourToMember",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMarketLevelOneToMember",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMarketLevelThreeToMember",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMarketLevelTwoToMember",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMemberId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "getMembers",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "balance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "totalIncome",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "frontBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "backBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "totalDeposit",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "totalWithdraw",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "dynamicBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "lastDepositTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "account",
+								"type": "address"
+							},
+							{
+								"internalType": "uint8",
+								"name": "level",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "marketLevel",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct NGLStruct.Member",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "getRelationship",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "isInitalize",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "logicAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "logicAddress_",
+						"type": "address"
+					}
+				],
+				"name": "logicContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToAllV4",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToDirect",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToInter",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToManager",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToV1",
+				"outputs": [
+					{
+						"internalType": "uint64",
+						"name": "",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToV2",
+				"outputs": [
+					{
+						"internalType": "uint64",
+						"name": "",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToV3",
+				"outputs": [
+					{
+						"internalType": "uint64",
+						"name": "",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "marketToV4",
+				"outputs": [
+					{
+						"internalType": "uint64",
+						"name": "",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "memberIdOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformA",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformABalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformB",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformBBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformC",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformCBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformToA",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformToB",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "platformToC",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "levelId",
+						"type": "uint8"
+					}
+				],
+				"name": "setAmountToLevel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "inviterId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setDirectInvitation",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "isDeposit_",
+						"type": "bool"
+					}
+				],
+				"name": "setIsDeposit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "isInitalize_",
+						"type": "bool"
+					}
+				],
+				"name": "setIsInitalize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "levelId",
+						"type": "uint8"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "id",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint248",
+								"name": "front",
+								"type": "uint248"
+							},
+							{
+								"internalType": "uint256",
+								"name": "back",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "value",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct NGLStruct.Level",
+						"name": "level",
+						"type": "tuple"
+					}
+				],
+				"name": "setLevel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "levelId",
+						"type": "uint8"
+					}
+				],
+				"name": "setLevelId",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setMarketLevelFourToMember",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setMarketLevelOneToMember",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setMarketLevelThreeToMember",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setMarketLevelTwoToMember",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setMemberId",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "setMemberIdOf",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "balance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "totalIncome",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "frontBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "backBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "totalDeposit",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "totalWithdraw",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "dynamicBalance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "lastDepositTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "account",
+								"type": "address"
+							},
+							{
+								"internalType": "uint8",
+								"name": "level",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "marketLevel",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct NGLStruct.Member",
+						"name": "member",
+						"type": "tuple"
+					}
+				],
+				"name": "setMembers",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "setPlatformA",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "setPlatformABalance",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "setPlatformB",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "setPlatformBBalance",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "setPlatformC",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "setPlatformCBalance",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inviterId",
+						"type": "uint256"
+					}
+				],
+				"name": "setRelationship",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "setTrashAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "setTrashBalance",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV1Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV1Income",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV2Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV2Income",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV3Income",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV3Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV4Income",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_upgradeToV4Amount",
+						"type": "uint256"
+					}
+				],
+				"name": "setUpgradeMarketLevel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "setV4balance",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "withdrawThreshold_",
+						"type": "uint256"
+					}
+				],
+				"name": "setWithdrawThreshold",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "staticToFrontSeventy",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "staticToInviation",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "staticToSelf",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "trashAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "trashBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV1Amount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV1Income",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV2Amount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV2Income",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV3Amount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV3Income",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV4Amount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "upgradeToV4Income",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "v4balance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawThreshold",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawToFrontAndBack",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawToSelf",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		]
+    let abi = [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_storageContract",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "inviterId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Redeposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					}
+				],
+				"name": "RewardV4",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "oldLevel",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "newLevel",
+						"type": "uint8"
+					}
+				],
+				"name": "Upgrade",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "reward",
+						"type": "uint256"
+					}
+				],
+				"name": "WithDraw",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "BOT_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MANAGER_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint248",
+						"name": "_up",
+						"type": "uint248"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_down",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "addLevel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "canUpgrade",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "inviterId",
+						"type": "uint256"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "emencyWithDraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "inviterId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "memberOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "_frontBalance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_backBalance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_totalDeposit",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_totalWithdraw",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_totalIncome",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_dynamicBalance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_balance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_level",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_marketLevel",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_lastDepositTime",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "nglStorage",
+				"outputs": [
+					{
+						"internalType": "contract INGLStorage",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "rewardV4",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_memberId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_marketLevel",
+						"type": "uint8"
+					}
+				],
+				"name": "setMarketLevel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transferTo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "_levelId",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "updateLevel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					}
+				],
+				"name": "upgrade",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "memberId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withDraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawPlatformA",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawPlatformB",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawPlatformC",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawTrash",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		]
+
+    let web3;
+    let provider;
+    let signer;
+
+    // // instantiation contract
+    let ngl;
+    let storage;
+
+    if (window.ethereum) {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        signer = provider.getSigner()
+        ngl = new ethers.Contract(nglAddress, abi, signer);
+        storage = new ethers.Contract(storageAddress, storageABI, signer);
+        window.ethereum.on("accountsChanged", (account) => {
+            if (account == "") {
+                msg("断开钱包");
+            } else {
+                msg('链接钱包成功，当前账户：' + account);
+                lodin = layer.open({ type: 2 });
+                getInfo(lodin);
+            }
+        })
+
+    } else {
+        // alert("请先安装MetaMask钱包");
+        // window.location.href = "https://metamask.io";
+    }
+
+
+    async function connectWallet() {
+        if (window.ethereum) {
+            await provider.send("eth_requestAccounts", []);
+
+        } else {
+            // alert("请先安装MetaMask钱包");
+            // window.location.href = "https://metamask.io";
+        }
+
+    }
+
+    function msg(txt) {
+        layer.open({
+            content: txt
+            , skin: 'msg'
+            , time: 2 //2秒后自动关闭
+            , style: 'background-color:#09C1FF; color:#fff; border:none;' //自定风格
+        });
+    }
+    // ================== WEB3 FUNCTION ===================
+    async function getWeb3Account() {
+        return await signer.getAddress();
+    }
+
+    async function getERC20Balance(account) {
+        let balance = await provider.getBalance(account);
+        return ethers.utils.formatEther(balance);
+    }
+
+    // // ================== CONTRACT FUNCTION ===================
+
+    async function totalDepositMember() {
+        return await storage._memberId();
+    }
+
+    async function canUpgrade(memberId) {
+        return await ngl.canUpgrade(memberId)
+    }
+
+    async function withdrawThreshold() {
+        return await storage.withdrawThreshold()
+    }
+
+    async function memberIdOf(address) {
+        return await storage.memberIdOf(address)
+    }
+
+    async function getLevel(levelId) {
+        return await storage.getLevel(levelId);
+    }
+
+    async function directInvitation(memberId) {
+        return await storage.getDirectInvitation(memberId)
+    }
+
+    async function inviterId(memberId) {
+        return await ngl.inviterId(memberId);
+    }
+
+    async function deposit(amount, inviterId) {
+        let sender = await getWeb3Account();
+        return await ngl.deposit(amount, inviterId, {
+            from: sender,
+            value: amount
+        });
+    }
+    
+    async function upgrade(memberId) {
+        let sender = await getWeb3Account();
+        return await ngl.upgrade(memberId, {
+            from: sender
+        });
+    }
+
+    async function withdraw(memberId, amount) {
+        let sender = await getWeb3Account();
+        return await ngl.withDraw(memberId, amount, {
+            from: sender
+        })
+    }
+
+    async function emencyWithdraw(account) {
+        let sender = await getWeb3Account();
+        return await ngl.emencyWithDraw(account, {
+            from: sender
+        })
+    }
+
+    async function rewardV4() {
+        let sender = await getWeb3Account();
+        return await ngl.rewardV4().send({
+            from: sender
+        })
+    }
+
+    async function setIsStaticToSelf() {
+        let sender = await getWeb3Account();
+        return await ngl.setIsStaticToSelf().send({
+            from: sender
+        })
+    }
+
+    async function initalize(
+        _upgradeToV1Income,
+        _upgradeToV1Amount,
+        _upgradeToV2Amount,
+        _upgradeToV2Income,
+        _upgradeToV3Income,
+        _upgradeToV3Amount,
+        _upgradeToV4Income,
+        _upgradeToV4Amount
+    ) {
+        let sender = await getWeb3Account();
+        return await storage.setUpgradeMarketLevel(
+            _upgradeToV1Amount,
+            _upgradeToV1Income,
+            _upgradeToV2Amount,
+            _upgradeToV2Income,
+            _upgradeToV3Income,
+            _upgradeToV3Amount,
+            _upgradeToV4Income,
+            _upgradeToV4Amount,
+            {
+                from: sender
+            }
+        );
+    }
+
+    async function addLevel(up, down, value) {
+        let sender = await getWeb3Account();
+        return await ngl.addLevel(up, down, value, {
+            from: sender
+        });
+    }
+
+    async function setUpgradeToV1Income(amount) {
+        let sender = await getWeb3Account();
+        return await ngl.setUpgradeToV1Income(amount, {
+            from: sender
+        });
+    }
+
+    async function setUpgradeToV2Amount(amount) {
+        let sender = await getWeb3Account();
+        return await ngl.setUpgradeToV2Amount(amount, {
+            from: sender
+        });
+    }
+
+    async function setUpgradeIncome(marketLevel, needIncome) {
+        let sender = await getWeb3Account();
+        return await ngl.setUpgradeIncome(marketLevel, needIncome, {
+            from: sender
+        });
+    }
+
+    async function setMarketLevel(memberId, marketLevel) {
+        let sender = await getWeb3Account();
+        return await ngl.setMarketLevel(memberId, marketLevel, {
+            from: sender
+        });
+    }
+
+    async function memberOf(memberId) {
+        let sender = await getWeb3Account();
+        return await storage.getMembers(memberId)
+    }
+
+    async function setPlatformA(address) {
+        let sender = await getWeb3Account();
+        return await storage.setPlatformA(address, {
+            from: sender
+        });
+    }
+
+    async function setPlatformB(address) {
+        let sender = await getWeb3Account();
+        return await storage.setPlatformB(address, {
+            from: sender
+        });
+    }
+
+    async function setPlatformC(address) {
+        let sender = await getWeb3Account();
+        return await storage.setPlatformC(address, {
+            from: sender
+        });
+    }
+
+    async function setThreshold(_threshold) {
+        let sender = await getWeb3Account();
+        return await ngl.setThreshold(_threshold, {
+            from: sender
+        })
+    }
+
+    async function setTrashAddress(trashAddress) {
+        let sender = await getWeb3Account();
+        return await storage.setTrashAddress(trashAddress, {
+            from: sender
+        })
+    }
+
+    async function platformABalance() {
+        return await storage.platformABalance()
+    }
+
+    async function platformBBalance() {
+        return await storage.platformBBalance()
+    }
+
+    async function platformCBalance() {
+        return await storage.platformCBalance()
+    }
+
+    async function trashBalance() {
+        return await storage.trashBalance()
+    }
+
+    async function v4Balance() {
+        return await storage.v4balance()
+    }
+
+    async function managerViewInfo() {
+        let v4Balance = await storage.v4balance()
+        let platformA = await storage.platformA()
+        let platformB = await storage.platformB()
+        let platformC = await storage.platformC()
+        let withdrawThreshold = await storage.withdrawThreshold()
+        let upgradeToV1Income = await storage.upgradeToV1Income()
+        let upgradeToV2Amount = await storage.upgradeToV2Amount()
+        let upgradeToV2Income = await storage.upgradeToV2Income()
+        let upgradeToV3Income = await storage.upgradeToV3Income()
+        let upgradeToV4Income = await storage.upgradeToV4Income()
+
+        let depositToPlatform = await storage.depositToPlatform()
+        let depositToStatic = await storage.depositToStatic()
+        let depositToMarket = await storage.depositToMarket()
+        let platformToC = await storage.platformToC()
+        let platformToB = await storage.platformToB()
+        let platformToA = await storage.platformToA()
+        let trashAddress = await storage.trashAddress()
+        let staticToFrontSeventy = await storage.staticToFrontSeventy()
+        let staticToInviation = await storage.staticToInviation()
+        let staticToSelf = await storage.staticToSelf()
+        let marketToDirect = await storage.marketToDirect()
+        let marketToInter = await storage.marketToInter()
+        let marketToManager = await storage.marketToManager()
+        let marketToAllV4 = await storage.marketToAllV4()
+        let marketToV1 = await storage.marketToV1()
+        let marketToV2 = await storage.marketToV2()
+        let marketToV3 = await storage.marketToV3()
+        let marketToV4 = await storage.marketToV4()
+        // let withdrawToRedeposit = await storage.withdrawToRedeposit()
+        let withdrawToFrontAndBack = await storage.withdrawToFrontAndBack()
+        let withdrawToSelf = await storage.withdrawToSelf()
+        let curr_withdrawThreshold = await storage.withdrawThreshold()
+
+        return {
+            trashAddress,
+            v4Balance,
+            platformA,
+            platformB,
+            platformC,
+            withdrawThreshold,
+            upgradeToV1Income,
+            upgradeToV2Amount,
+            upgradeToV2Income,
+            upgradeToV3Income,
+            upgradeToV4Income,
+            depositToPlatform,
+            depositToStatic,
+            depositToMarket,
+            platformToC,
+            platformToB,
+            platformToA,
+            staticToFrontSeventy,
+            staticToInviation,
+            staticToSelf,
+            marketToDirect,
+            marketToInter,
+            marketToManager,
+            marketToAllV4,
+            marketToV1,
+            marketToV2,
+            marketToV3,
+            marketToV4,
+            withdrawToFrontAndBack,
+            withdrawToSelf,
+            curr_withdrawThreshold
+        }
+    }
+
+    async function marketLevelFourToMember() {
+        return await storage.marketLevelFourToMember()
+    }
+
+    async function updateLevel(value) {
+        let sender = await getWeb3Account();
+        return await ngl.updateLevel("1", value, {
+            from: sender
+        });
+    }
+
+    async function staticToSelf() {
+        return await storage.staticToSelf()
+    }
+
+    async function withdrawPlatformA() {
+        let sender = await getWeb3Account();
+        return await ngl.withdrawPlatformA({
+            from: sender
+        });
+    }
+
+    async function marketLevelFourToMember() {
+        return await storage.methods.marketLevelFourToMember();
+    }
+    async function marketLevelThreeToMember() {
+        return await storage.methods.marketLevelThreeToMember();
+    }
+    async function marketLevelTwoToMember() {
+        return await storage.methods.marketLevelTwoToMember();
+    }
+    async function marketLevelOneToMember() {
+        return await storage.methods.marketLevelOneToMember();
+    }
+    async function withdrawPlatformB() {
+        let sender = await getWeb3Account();
+        return await ngl.withdrawPlatformB({
+            from: sender
+        })
+    }
+
+    async function withdrawPlatformC() {
+        let sender = await getWeb3Account();
+        return await ngl.withdrawPlatformC({
+            from: sender
+        });
+    }
+
+    async function withdrawTrash() {
+        let sender = await getWeb3Account();
+        return await ngl.withdrawTrash({
+            from: sender
+        });
+    }
+
+    // ================== LISTEN EVENT ===================
+
+    function Deposit(callback) {
+        ngl.on("Deposit", callback)
+    }
+
+    Deposit(() => {
+        getInfo();
+    })
+
+    function Upgrade(callback) {
+        ngl.on("Upgrade", callback)
+    }
+
+    Upgrade(() => {
+        getInfo();
+    })
+
+    function WithDraw(callback) {
+        ngl.on("WithDraw", callback)
+    }
+
+    WithDraw(() => {
+        getInfo();
+    })
+
+    function RewardV4(callback) {
+        ngl.on("RewardV4", callback)
+    }
+
+    RewardV4(() => {
+        getInfo();
+    })
+
+</script>
+
+<script>
+    function getTime(value) {
+        index = setInterval(function () {
+            value = value - 1;
+            // console.log(formatSeconds(value))
+            $("#times").html(formatSeconds(value))
+        }, 1000);  //反复执行函数本身
+
+    }
+
+    function formatAddress(account) {
+        return account.substring(0, 6) + "......" + account.slice(-6);
+    }
+
+    /**
+     * 格式化秒
+     * @param  int  value 总秒数
+     * @return  string result 格式化后的字符串
+     */
+    function formatSeconds(value) {
+        var theTime = parseInt(value);// 需要转换的时间秒
+        var theTime1 = 0;// 分
+        var theTime2 = 0;// 小时
+        var theTime3 = 0;// 天
+        if (theTime > 60) {
+            theTime1 = parseInt(theTime / 60);
+            theTime = parseInt(theTime % 60);
+            if (theTime1 > 60) {
+                theTime2 = parseInt(theTime1 / 60);
+                theTime1 = parseInt(theTime1 % 60);
+                if (theTime2 > 24) {
+                    //大于24小时
+                    theTime3 = parseInt(theTime2 / 24);
+                    theTime2 = parseInt(theTime2 % 24);
+                }
+            }
+        }
+        var result = '';
+        if (theTime > 0) {
+            miao = "" + parseInt(theTime);
+        } else {
+            miao = '00';
+        }
+        if (theTime1 > 0) {
+            fz = "" + parseInt(theTime1);
+        } else {
+            fz = "00";
+        }
+        if (theTime2 > 0) {
+            xs = parseInt(theTime2);
+        } else {
+            xs = '00';
+        }
+        // if(theTime3 > 0) {
+        //     result = ""+parseInt(theTime3)+"天"+result;
+        // }
+        return xs + ':' + fz + ':' + miao;
+    }
+
+
+</script>
+
+<script>
+
+    function tishi() {
+        html = $("#txgz").html();
+
+        layer.open({
+            type: 1,
+            style: 'background-color:#090A09',
+            content: html
+        })
+    }
+
+    var hasmoney = 0;
+    var memberId;
+    var member;
+    let href_inviter_address;
+    var inviter_Id = '1';
+    lodin = layer.open({ type: 2 });
+    getInfo(lodin);
+
+
+
+    async function getInfo(lodin) {
+
+        let paramStr = window.location.href.split("?")[1];
+        let paramObj = {};
+        if (paramStr) {
+            let paramArr = paramStr.split("&");
+            for (let i = 0; i < paramArr.length; i++) {
+                let itemArr = paramArr[i].split("=");
+                paramObj[itemArr[0]] = itemArr[1];
+            }
+        }
+
+        if (Object.keys(paramObj).includes("inviter")) {
+            href_inviter_address = paramObj["inviter"];
+        }
+
+
+
+        let account = await getWeb3Account().catch(() => {
+            msg("请先连接钱包");
+            close(lodin)
+            return;
+        });
+        if (account) {
+            let balance = await getERC20Balance(account);
+            level = await getLevel(1);
+            memberId = await memberIdOf(account);
+            inviter_Id = await inviterId(memberId);
+
+            if (inviter_Id == 0 && href_inviter_address != undefined) {
+
+                inviter_Id = await memberIdOf(href_inviter_address).catch(() => {
+
+                });
+
+                if (inviter_Id == 0 || !inviter_Id) {
+                    msg("不可用的邀请人地址");
+                }
+            }
+
+            let inviter = await memberOf(inviter_Id == 0 || !inviter_Id ? 1 : inviter_Id);
+            threshold = await withdrawThreshold();
+            console.log(inviter);
+            member = await memberOf(memberId);
+            let totalMember = await totalDepositMember();
+
+            isUpgrade = await canUpgrade(memberId);
+            invivationNumber = await directInvitation(memberId);
+
+            jm_account = formatAddress(account);
+            $(".accountAddress").text(jm_account); //个人地址
+            $(".myAddress").click(() => {
+                copyAddr(".myAddress", account);
+            })
+            $("#sharerAddress").val(memberId == 0 ? (inviter.id == 1 ? "" : formatAddress(inviter.account)) : formatAddress(inviter.account));//分享人地址
+            $("#nodeValue").text(totalMember - 1); //社区总数
+            // $("#ztzs").text(response.data.data.sq.ztzs); //总投资数
+            // $("#ztbsl").text(response.data.data.sq.ztbsl); //总提币数
+            // $("#gold_storage_pool").text(response.data.data.sq.gold_storage_pool); //蓄金池
+
+            $("#gr_ztzs").text((member.totalDeposit / 10 ** 18).toFixed(7).toString().slice(0, 8)); //个人总投资数
+            $("#gr_ztbs").text((member.totalWithdraw / 10 ** 18).toFixed(7).toString().slice(0, 8)); //个人总提币数
+
+            $("#memberId").text(member.id == 0 ? "未入金" : "NO." + member.id);
+            $("#bonus24").text((member.frontBalance / 10 ** 18).toFixed(7).toString().slice(0, 8) + " BNB"); //社区奖励下维度
+            $("#bonus23").text((member.backBalance / 10 ** 18).toFixed(7).toString().slice(0, 8) + " BNB"); //社区奖励上维度
+            $("#bonus21").text((member.dynamicBalance / 10 ** 18).toFixed(7).toString().slice(0, 8)); //动态收入
+            $(".money2").text((member.totalIncome / 10 ** 18).toFixed(7).toString().slice(0, 8)); //钱包余额
+            $("#canWithdraw").text((member.balance / 10 ** 18).toFixed(7).toString().slice(0, 8)); //钱包余额
+            let share_url = member.id == 0 ? undefined : "https://app.blockbank.pro/home.html?inviter=" + member.account
+            $("#share_url").text(share_url ? share_url.slice(0, 20) + "......" + share_url.slice(-6) : "未入金"); //分享链接
+    
+
+            $(".tkl").click(() => {
+                
+                copyAddr(".tkl", share_url);
+            });
+            $("#wd_min").text(threshold / 10 ** 18);
+
+            $("#balance").text(Number(balance).toFixed(7).toString().slice(0, 8));
+            // $("#canWithdraw").text(mem);
+            $("#invitationNumber").text(invivationNumber.length);
+            $("#withdrew").text((member.totalWithdraw / 10 ** 18).toFixed(7).toString().slice(0, 8));
+            $("#time").text(new Date(member.lastDepositTime * 1000).toLocaleString());
+            $("#level").text("V" + member.marketLevel);
+            $("#upgrade").text(Number(member.marketLevel) != 4 ? "可升级到V" + (Number(member.marketLevel) + 1) : "最高等级");
+            $("#upgrade").click(Number(member.marketLevel) != 4 ? upgrade : "");
+            $("#buyAmount").text(level.value / 10 ** 18);
+            $("#upgrade")[0].style.background = !isUpgrade ? "#ccc" : "#ff00ff"
+        } else {
+            msg("请先连接钱包");
+        }
+
+
+        close(lodin);
+
+
+    }
+
+    // async function handleInput(e) {
+    //     let address = $("#fx_address").val();
+
+    //     // console.log();
+    //     $("#fx_address").val(    address + e.data);
+    // }
+
+
+    async function handleBlur() {
+        let address = $("#sharerAddress").val()
+        if (address.trim() == "") {
+            let account = await getWeb3Account();
+            memberId = await memberIdOf(account);
+            inviter_Id = await inviterId(memberId);
+            let inviter = await memberOf(inviter_Id == 0 ? 1 : inviter_Id);
+            $("#sharerAddress").val(inviter_Id == 0 ? (href_inviter_address ? formatAddress(href_inviter_address) : formatAddress(inviter._account)) : formatAddress(inviter._account));
+        } else {
+            inviter_Id = await memberIdOf(address).catch(() => { });
+            if (inviter_Id == '0' || inviter_Id == undefined) {
+                msg("输入的邀请人不存在");
+            } else {
+                $("#sharerAddress").val(formatAddress(address));
+            }
+        }
+    }
+
+    function msg(txt, duration) {
+        return layer.open({
+            content: txt
+            , skin: 'msg'
+            , time: duration ? duration : 2 //2秒后自动关闭
+            , style: 'background-color:#ff00ff; color:#fff; border:none;' //自定风格
+        });
+    }
+    function close(index) {
+        layer.close(index)
+    }
+
+    function copyAddr(selector, $url) {
+        const clipboard = new ClipboardJS(selector, {
+            text: function () {
+                return $url;
+            }
+        });
+
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            clipboard.destroy();
+            msg('复制成功')
+        });
+
+        clipboard.on('error', function (e) {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+    }
+
+    /**
+    * 提币
+    * */
+    function tb(id) {
+        insetMoney = $("#insetmoney").val() * 1;
+        if (insetMoney > 0) {
+            if (insetMoney * 10 ** 18 < Number(threshold)) {
+                msg('小于最低提币数量')
+                return false
+            }
+
+            if (insetMoney * 10 ** 18 > Number(member._balance)) {
+                msg('余额不足')
+                return false
+            }
+
+            //询问框
+            layer.open({
+                skin: "layercss",
+                content: '是否确认提币' + insetMoney + "BNB"
+                , btn: ['提币', '取消']
+                , yes: async function (index) {
+                    lodin = layer.open({ type: 2 });
+                    withdraw(memberId, ethers.utils.parseEther(insetMoney.toString(), "ether")).then((ret) => {
+                        ret.wait().then(() => {
+                            close(lodin)
+                            msg("提现成功");
+                            getInfo()
+                        })
+                    }).catch(() => {
+                        msg("提现失败");
+                        close(lodin);
+                    });
+
+                }
+            });
+        } else {
+            msg('请输入金额')
+            return false
+        }
+    }
+
+
+    var thismoney = 0;
+
+
+    function buy(id, money) {
+
+
+        $(".second-box").removeClass("active")
+        $(".class" + (id)).addClass("active")
+
+        thismoney = money;
+        return false
+    }
+
+    async function newbuy() {
+        let account = await getWeb3Account();
+
+        let paramStr = window.location.href.split("?")[1];
+        let paramObj = {};
+        if (paramStr) {
+            let paramArr = paramStr.split("&");
+            for (let i = 0; i < paramArr.length; i++) {
+                let itemArr = paramArr[i].split("=");
+                paramObj[itemArr[0]] = itemArr[1];
+            }
+        }
+
+        if (memberId != 0) {
+            msg("不能够重复入金");
+            return false;
+        }
+
+        if (level.value) {
+
+            let balance = await getERC20Balance(account);
+
+            // let allowance = await allwowance(account);
+
+            if (Number(balance) <= ethers.utils.formatEther(level.value)) {
+                msg("余额不足");
+                return
+            }
+
+            if (inviter_Id == 0 || !inviter_Id) {
+                msg("请填写分享人地址");
+            } else {
+                let loadingIndex = msg("交易提交，等待确认", 0);
+                let ret = await deposit(level.value, inviter_Id == 0 || !inviter_Id ? 1 : inviter_Id);
+                await ret.wait();
+                msg("入金成功");
+                close(loadingIndex);
+                getInfo();
+            }
+
+        } else {
+            msg("请选择数量");
+        }
+    }
+
+    async function upgradeLevel() {
+        if (!isUpgrade) {
+            msg("不满足升级要求");
+            return
+        }
+        let loadingIndex = msg("交易提交，等待确认", 0);
+        let ret = await upgrade(memberId);
+        await ret.wait();
+        msg("升级成功");
+        close(loadingIndex);
+        getInfo();
+    }
+
+    function handleFocus() {
+        $("#sharerAddress").val("");
+    }
+
+</script>
+
+
+</html>

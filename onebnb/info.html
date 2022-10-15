@@ -1,0 +1,3758 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>info</title>
+    <script src="https://app.blockbank.pro/static/jquery-1.11.0.min.js"></script>
+    <link href="https://app.blockbank.pro/static/css/layer.css" rel="stylesheet" />
+    <script src="https://app.blockbank.pro/static/mui.js"></script>
+
+    <link href="https://app.blockbank.pro/static/css/mui.picker.css" rel="stylesheet" />
+    <link href="https://app.blockbank.pro/static/css/mui.poppicker.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://unpkg.com/web3modal"></script>
+</head>
+
+<body style="text-align: center;background-image: url(/src/asserts/icon/BKBKhd_bg.jpg); color: #fff;">
+    <div class="form-item" style="margin-top:50px;">
+        <h3> </h3>
+        <span id="balance"></span>
+    </div>
+    <br />
+    <div>
+        <button onclick="withdrawA()">提现</button>
+    </div>
+
+    <script src="https://app.blockbank.pro/static/layer.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script> -->
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+
+    <script>
+        let nglAddress = "0x7Cf88469652DB4c69C8f12C5D2e2521faFeF9E43";
+        let storageAddress = "0x9bea8B58cb766a98D0F156260f68b303320a4Ef5";
+        let storageABI = [
+                {
+                    "inputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "constructor"
+                },
+                {
+                    "anonymous": false,
+                    "inputs": [
+                        {
+                            "indexed": true,
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "indexed": true,
+                            "internalType": "bytes32",
+                            "name": "previousAdminRole",
+                            "type": "bytes32"
+                        },
+                        {
+                            "indexed": true,
+                            "internalType": "bytes32",
+                            "name": "newAdminRole",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "name": "RoleAdminChanged",
+                    "type": "event"
+                },
+                {
+                    "anonymous": false,
+                    "inputs": [
+                        {
+                            "indexed": true,
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "indexed": true,
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        },
+                        {
+                            "indexed": true,
+                            "internalType": "address",
+                            "name": "sender",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "RoleGranted",
+                    "type": "event"
+                },
+                {
+                    "anonymous": false,
+                    "inputs": [
+                        {
+                            "indexed": true,
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "indexed": true,
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        },
+                        {
+                            "indexed": true,
+                            "internalType": "address",
+                            "name": "sender",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "RoleRevoked",
+                    "type": "event"
+                },
+                {
+                    "inputs": [],
+                    "name": "DEFAULT_ADMIN_ROLE",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "LOGIC_CONTRACT_ROLE",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "MANAGER_ROLE",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "_memberId",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "addLevelId",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "addMemberId",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "oldContract",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "start",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "end",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "backupOldContractMember",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "depositToMarket",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "depositToPlatform",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "depositToStatic",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "getAmountToLevel",
+                    "outputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "",
+                            "type": "uint8"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "inviterId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "getDirectInvitation",
+                    "outputs": [
+                        {
+                            "internalType": "uint256[]",
+                            "name": "",
+                            "type": "uint256[]"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "getIsDeposit",
+                    "outputs": [
+                        {
+                            "internalType": "bool",
+                            "name": "",
+                            "type": "bool"
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "levelId",
+                            "type": "uint8"
+                        }
+                    ],
+                    "name": "getLevel",
+                    "outputs": [
+                        {
+                            "components": [
+                                {
+                                    "internalType": "uint8",
+                                    "name": "id",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint248",
+                                    "name": "front",
+                                    "type": "uint248"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "back",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "value",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "internalType": "struct NGLStruct.Level",
+                            "name": "",
+                            "type": "tuple"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "getLevelId",
+                    "outputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "",
+                            "type": "uint8"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "getMarketLevelFourToMember",
+                    "outputs": [
+                        {
+                            "internalType": "uint256[]",
+                            "name": "",
+                            "type": "uint256[]"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "getMarketLevelOneToMember",
+                    "outputs": [
+                        {
+                            "internalType": "uint256[]",
+                            "name": "",
+                            "type": "uint256[]"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "getMarketLevelThreeToMember",
+                    "outputs": [
+                        {
+                            "internalType": "uint256[]",
+                            "name": "",
+                            "type": "uint256[]"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "getMarketLevelTwoToMember",
+                    "outputs": [
+                        {
+                            "internalType": "uint256[]",
+                            "name": "",
+                            "type": "uint256[]"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "getMemberId",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "getMembers",
+                    "outputs": [
+                        {
+                            "components": [
+                                {
+                                    "internalType": "uint256",
+                                    "name": "id",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "balance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalIncome",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "frontBalance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "backBalance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalDeposit",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalWithdraw",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "dynamicBalance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "lastDepositTime",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "address",
+                                    "name": "account",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "level",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "marketLevel",
+                                    "type": "uint8"
+                                }
+                            ],
+                            "internalType": "struct NGLStruct.Member",
+                            "name": "",
+                            "type": "tuple"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "getRelationship",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "name": "getRoleAdmin",
+                    "outputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "grantRole",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "hasRole",
+                    "outputs": [
+                        {
+                            "internalType": "bool",
+                            "name": "",
+                            "type": "bool"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "isInitalize",
+                    "outputs": [
+                        {
+                            "internalType": "bool",
+                            "name": "",
+                            "type": "bool"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "logicAddress",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "logicAddress_",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "logicContract",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToAllV4",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToDirect",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToInter",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToManager",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToV1",
+                    "outputs": [
+                        {
+                            "internalType": "uint64",
+                            "name": "",
+                            "type": "uint64"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToV2",
+                    "outputs": [
+                        {
+                            "internalType": "uint64",
+                            "name": "",
+                            "type": "uint64"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToV3",
+                    "outputs": [
+                        {
+                            "internalType": "uint64",
+                            "name": "",
+                            "type": "uint64"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "marketToV4",
+                    "outputs": [
+                        {
+                            "internalType": "uint64",
+                            "name": "",
+                            "type": "uint64"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "memberIdOf",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformA",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformABalance",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformB",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformBBalance",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformC",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformCBalance",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformToA",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformToB",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "platformToC",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "renounceRole",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes32",
+                            "name": "role",
+                            "type": "bytes32"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "revokeRole",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint8",
+                            "name": "levelId",
+                            "type": "uint8"
+                        }
+                    ],
+                    "name": "setAmountToLevel",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "inviterId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setDirectInvitation",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "isDeposit_",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "setIsDeposit",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bool",
+                            "name": "isInitalize_",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "setIsInitalize",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "levelId",
+                            "type": "uint8"
+                        },
+                        {
+                            "components": [
+                                {
+                                    "internalType": "uint8",
+                                    "name": "id",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint248",
+                                    "name": "front",
+                                    "type": "uint248"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "back",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "value",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "internalType": "struct NGLStruct.Level",
+                            "name": "level",
+                            "type": "tuple"
+                        }
+                    ],
+                    "name": "setLevel",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "levelId",
+                            "type": "uint8"
+                        }
+                    ],
+                    "name": "setLevelId",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setMarketLevelFourToMember",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setMarketLevelOneToMember",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setMarketLevelThreeToMember",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setMarketLevelTwoToMember",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setMemberId",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setMemberIdOf",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        },
+                        {
+                            "components": [
+                                {
+                                    "internalType": "uint256",
+                                    "name": "id",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "balance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalIncome",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "frontBalance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "backBalance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalDeposit",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "totalWithdraw",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "dynamicBalance",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "lastDepositTime",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "address",
+                                    "name": "account",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "level",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "uint8",
+                                    "name": "marketLevel",
+                                    "type": "uint8"
+                                }
+                            ],
+                            "internalType": "struct NGLStruct.Member",
+                            "name": "member",
+                            "type": "tuple"
+                        }
+                    ],
+                    "name": "setMembers",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "setPlatformA",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setPlatformABalance",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "setPlatformB",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setPlatformBBalance",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "setPlatformC",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setPlatformCBalance",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "memberId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "inviterId",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setRelationship",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "account",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "setTrashAddress",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setTrashBalance",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV1Amount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV1Income",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV2Amount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV2Income",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV3Income",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV3Amount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV4Income",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "_upgradeToV4Amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setUpgradeMarketLevel",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "amount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setV4balance",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "withdrawThreshold_",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setWithdrawThreshold",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "staticToFrontSeventy",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "staticToInviation",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "staticToSelf",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "bytes4",
+                            "name": "interfaceId",
+                            "type": "bytes4"
+                        }
+                    ],
+                    "name": "supportsInterface",
+                    "outputs": [
+                        {
+                            "internalType": "bool",
+                            "name": "",
+                            "type": "bool"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "trashAddress",
+                    "outputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "trashBalance",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV1Amount",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV1Income",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV2Amount",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV2Income",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV3Amount",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV3Income",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV4Amount",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "upgradeToV4Income",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "v4balance",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "withdrawThreshold",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "withdrawToFrontAndBack",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "withdrawToSelf",
+                    "outputs": [
+                        {
+                            "internalType": "uint16",
+                            "name": "",
+                            "type": "uint16"
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ]
+        let abi = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_platformA",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_platformB",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_platformC",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_trashAddress",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_withdrawThreshold",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "inviterId",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Deposit",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Redeposit",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "time",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "RewardV4",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "bytes32",
+                        "name": "previousAdminRole",
+                        "type": "bytes32"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "bytes32",
+                        "name": "newAdminRole",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "RoleAdminChanged",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "sender",
+                        "type": "address"
+                    }
+                ],
+                "name": "RoleGranted",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "sender",
+                        "type": "address"
+                    }
+                ],
+                "name": "RoleRevoked",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint8",
+                        "name": "oldLevel",
+                        "type": "uint8"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint8",
+                        "name": "newLevel",
+                        "type": "uint8"
+                    }
+                ],
+                "name": "Upgrade",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "balance",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "reward",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "WithDraw",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "BOT_ROLE",
+                "outputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "",
+                        "type": "bytes32"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "DEFAULT_ADMIN_ROLE",
+                "outputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "",
+                        "type": "bytes32"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MANAGER_ROLE",
+                "outputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "",
+                        "type": "bytes32"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "_memberId",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint248",
+                        "name": "_up",
+                        "type": "uint248"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_down",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "addLevel",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "canUpgrade",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "inviterId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "deposit",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "depositToMarket",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "depositToPlatform",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "depositToStatic",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "directInvitation",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "emencyWithDraw",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint8",
+                        "name": "levelId",
+                        "type": "uint8"
+                    }
+                ],
+                "name": "getLevel",
+                "outputs": [
+                    {
+                        "components": [
+                            {
+                                "internalType": "uint8",
+                                "name": "id",
+                                "type": "uint8"
+                            },
+                            {
+                                "internalType": "uint248",
+                                "name": "front",
+                                "type": "uint248"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "back",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "value",
+                                "type": "uint256"
+                            }
+                        ],
+                        "internalType": "struct NGL.Level",
+                        "name": "",
+                        "type": "tuple"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "getRoleAdmin",
+                "outputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "",
+                        "type": "bytes32"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "grantRole",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "hasRole",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV1Amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV1Income",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV2Amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV2Income",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV3Income",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV3Amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV4Income",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_upgradeToV4Amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "initalize",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "inviterId",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "isInitalize",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketLevelFourToMember",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketLevelOneToMember",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketLevelThreeToMember",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketLevelTwoToMember",
+                "outputs": [
+                    {
+                        "internalType": "uint256[]",
+                        "name": "",
+                        "type": "uint256[]"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToAllV4",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToDirect",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToInter",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToManager",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToV1",
+                "outputs": [
+                    {
+                        "internalType": "uint64",
+                        "name": "",
+                        "type": "uint64"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToV2",
+                "outputs": [
+                    {
+                        "internalType": "uint64",
+                        "name": "",
+                        "type": "uint64"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToV3",
+                "outputs": [
+                    {
+                        "internalType": "uint64",
+                        "name": "",
+                        "type": "uint64"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "marketToV4",
+                "outputs": [
+                    {
+                        "internalType": "uint64",
+                        "name": "",
+                        "type": "uint64"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "memberIdOf",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "memberOf",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_frontBalance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_backBalance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_totalDeposit",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_totalWithdraw",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_totalIncome",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_dynamicBalance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_balance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_account",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "_level",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "_marketLevel",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_lastDepositTime",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformA",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformABalance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformB",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformBBalance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformC",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformCBalance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformToA",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformToB",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "platformToC",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "renounceRole",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "_depositToPlatform",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_depositToStatic",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_depositToMarket",
+                        "type": "uint16"
+                    }
+                ],
+                "name": "resetFundRate",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint64",
+                        "name": "_marketToV1",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "_marketToV2",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "_marketToV3",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "_marketToV4",
+                        "type": "uint64"
+                    }
+                ],
+                "name": "resetManager",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "_marketToDirect",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_marketToInter",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_marketToManager",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_marketToAllV4",
+                        "type": "uint16"
+                    }
+                ],
+                "name": "resetMarket",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "_platformToC",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_platformToB",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_platformToA",
+                        "type": "uint16"
+                    }
+                ],
+                "name": "resetPlatformRate",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "_staticToFrontSeventy",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_staticToInviation",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_staticToSelf",
+                        "type": "uint16"
+                    }
+                ],
+                "name": "resetStaticRate",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "_withdrawToFrontAndBack",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "_withdrawToSelf",
+                        "type": "uint16"
+                    }
+                ],
+                "name": "resetWithdraw",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "bytes32",
+                        "name": "role",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "revokeRole",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "rewardV4",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_memberId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "_marketLevel",
+                        "type": "uint8"
+                    }
+                ],
+                "name": "setMarketLevel",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_platformA",
+                        "type": "address"
+                    }
+                ],
+                "name": "setPlatformA",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_platformB",
+                        "type": "address"
+                    }
+                ],
+                "name": "setPlatformB",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_platformC",
+                        "type": "address"
+                    }
+                ],
+                "name": "setPlatformC",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_threshold",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setThreshold",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_trashAddress",
+                        "type": "address"
+                    }
+                ],
+                "name": "setTrashAddress",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint8",
+                        "name": "marketLevel",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "needIncome",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setUpgradeIncome",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setUpgradeToV1Income",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setUpgradeToV2Amount",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "staticToFrontSeventy",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "staticToInviation",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "staticToSelf",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "bytes4",
+                        "name": "interfaceId",
+                        "type": "bytes4"
+                    }
+                ],
+                "name": "supportsInterface",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "trashAddress",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "trashBalance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint8",
+                        "name": "_levelId",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "updateLevel",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "upgrade",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV1Amount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV1Income",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV2Amount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV2Income",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV3Amount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV3Income",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV4Amount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "upgradeToV4Income",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "v4balance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "memberId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "withDraw",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawPlatformA",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawPlatformB",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawPlatformC",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawThreshold",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawToFrontAndBack",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawToSelf",
+                "outputs": [
+                    {
+                        "internalType": "uint16",
+                        "name": "",
+                        "type": "uint16"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "withdrawTrash",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ]
+    
+        let web3;
+        let provider;
+        let signer;
+    
+        // // instantiation contract
+        let ngl;
+        let storage;
+    
+        if (window.ethereum) {
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = provider.getSigner()
+            ngl = new ethers.Contract(nglAddress, abi, signer);
+            storage = new ethers.Contract(storageAddress, storageABI, signer);
+            window.ethereum.on("accountsChanged", (account) => {
+                if (account == "") {
+                    msg("断开钱包");
+                } else {
+                    msg('链接钱包成功，当前账户：' + account);
+                    lodin = layer.open({ type: 2 });
+                    getInfo(lodin);
+                }
+            })
+    
+        } else {
+            // alert("请先安装MetaMask钱包");
+            // window.location.href = "https://metamask.io";
+        }
+    
+    
+        async function connectWallet() {
+            if (window.ethereum) {
+                await provider.send("eth_requestAccounts", []);
+    
+            } else {
+                // alert("请先安装MetaMask钱包");
+                // window.location.href = "https://metamask.io";
+            }
+    
+        }
+    
+        function msg(txt) {
+            layer.open({
+                content: txt
+                , skin: 'msg'
+                , time: 2 //2秒后自动关闭
+                , style: 'background-color:#09C1FF; color:#fff; border:none;' //自定风格
+            });
+        }
+        // ================== WEB3 FUNCTION ===================
+        async function getWeb3Account() {
+            return await signer.getAddress();
+        }
+    
+        async function getERC20Balance(account) {
+            let balance = await provider.getBalance(account);
+            return ethers.utils.formatEther(balance);
+        }
+    
+        // // ================== CONTRACT FUNCTION ===================
+    
+        async function totalDepositMember() {
+            return await storage._memberId();
+        }
+    
+        async function canUpgrade(memberId) {
+            return await ngl.canUpgrade(memberId)
+        }
+    
+        async function withdrawThreshold() {
+            return await storage.withdrawThreshold()
+        }
+    
+        async function memberIdOf(address) {
+            return await storage.memberIdOf(address)
+        }
+    
+        async function getLevel(levelId) {
+            return await storage.getLevel(levelId);
+        }
+    
+        async function directInvitation(memberId) {
+            return await storage.getDirectInvitation(memberId)
+        }
+    
+        async function inviterId(memberId) {
+            return await ngl.inviterId(memberId);
+        }
+    
+        async function deposit(amount, inviterId) {
+            let sender = await getWeb3Account();
+            return await ngl.deposit(amount, inviterId, {
+                from: sender,
+                value: amount
+            });
+        }
+        
+        async function upgrade(memberId) {
+            let sender = await getWeb3Account();
+            return await ngl.upgrade(memberId, {
+                from: sender
+            });
+        }
+    
+        async function withdraw(memberId, amount) {
+            let sender = await getWeb3Account();
+            return await ngl.withDraw(memberId, amount, {
+                from: sender
+            })
+        }
+    
+        async function emencyWithdraw(account) {
+            let sender = await getWeb3Account();
+            return await ngl.emencyWithDraw(account, {
+                from: sender
+            })
+        }
+    
+        async function rewardV4() {
+            let sender = await getWeb3Account();
+            return await ngl.rewardV4().send({
+                from: sender
+            })
+        }
+    
+        async function setIsStaticToSelf() {
+            let sender = await getWeb3Account();
+            return await ngl.setIsStaticToSelf().send({
+                from: sender
+            })
+        }
+    
+        async function initalize(
+            _upgradeToV1Income,
+            _upgradeToV1Amount,
+            _upgradeToV2Amount,
+            _upgradeToV2Income,
+            _upgradeToV3Income,
+            _upgradeToV3Amount,
+            _upgradeToV4Income,
+            _upgradeToV4Amount
+        ) {
+            let sender = await getWeb3Account();
+            return await storage.setUpgradeMarketLevel(
+                _upgradeToV1Amount,
+                _upgradeToV1Income,
+                _upgradeToV2Amount,
+                _upgradeToV2Income,
+                _upgradeToV3Income,
+                _upgradeToV3Amount,
+                _upgradeToV4Income,
+                _upgradeToV4Amount,
+                {
+                    from: sender
+                }
+            );
+        }
+    
+        async function addLevel(up, down, value) {
+            let sender = await getWeb3Account();
+            return await ngl.addLevel(up, down, value, {
+                from: sender
+            });
+        }
+    
+        async function setUpgradeToV1Income(amount) {
+            let sender = await getWeb3Account();
+            return await ngl.setUpgradeToV1Income(amount, {
+                from: sender
+            });
+        }
+    
+        async function setUpgradeToV2Amount(amount) {
+            let sender = await getWeb3Account();
+            return await ngl.setUpgradeToV2Amount(amount, {
+                from: sender
+            });
+        }
+    
+        async function setUpgradeIncome(marketLevel, needIncome) {
+            let sender = await getWeb3Account();
+            return await ngl.setUpgradeIncome(marketLevel, needIncome, {
+                from: sender
+            });
+        }
+    
+        async function setMarketLevel(memberId, marketLevel) {
+            let sender = await getWeb3Account();
+            return await ngl.setMarketLevel(memberId, marketLevel, {
+                from: sender
+            });
+        }
+    
+        async function memberOf(memberId) {
+            let sender = await getWeb3Account();
+            return await storage.getMembers(memberId)
+        }
+    
+        async function setPlatformA(address) {
+            let sender = await getWeb3Account();
+            return await storage.setPlatformA(address, {
+                from: sender
+            });
+        }
+    
+        async function setPlatformB(address) {
+            let sender = await getWeb3Account();
+            return await storage.setPlatformB(address, {
+                from: sender
+            });
+        }
+    
+        async function setPlatformC(address) {
+            let sender = await getWeb3Account();
+            return await storage.setPlatformC(address, {
+                from: sender
+            });
+        }
+    
+        async function setThreshold(_threshold) {
+            let sender = await getWeb3Account();
+            return await ngl.setThreshold(_threshold, {
+                from: sender
+            })
+        }
+    
+        async function setTrashAddress(trashAddress) {
+            let sender = await getWeb3Account();
+            return await storage.setTrashAddress(trashAddress, {
+                from: sender
+            })
+        }
+    
+        async function platformABalance() {
+            return await storage.platformABalance()
+        }
+    
+        async function platformBBalance() {
+            return await storage.platformBBalance()
+        }
+    
+        async function platformCBalance() {
+            return await storage.platformCBalance()
+        }
+    
+        async function trashBalance() {
+            return await storage.trashBalance()
+        }
+    
+        async function v4Balance() {
+            return await storage.v4balance()
+        }
+    
+        async function managerViewInfo() {
+            let v4Balance = await storage.v4balance()
+            let platformA = await storage.platformA()
+            let platformB = await storage.platformB()
+            let platformC = await storage.platformC()
+            let withdrawThreshold = await storage.withdrawThreshold()
+            let upgradeToV1Income = await storage.upgradeToV1Income()
+            let upgradeToV2Amount = await storage.upgradeToV2Amount()
+            let upgradeToV2Income = await storage.upgradeToV2Income()
+            let upgradeToV3Income = await storage.upgradeToV3Income()
+            let upgradeToV4Income = await storage.upgradeToV4Income()
+    
+            let depositToPlatform = await storage.depositToPlatform()
+            let depositToStatic = await storage.depositToStatic()
+            let depositToMarket = await storage.depositToMarket()
+            let platformToC = await storage.platformToC()
+            let platformToB = await storage.platformToB()
+            let platformToA = await storage.platformToA()
+            let trashAddress = await storage.trashAddress()
+            let staticToFrontSeventy = await storage.staticToFrontSeventy()
+            let staticToInviation = await storage.staticToInviation()
+            let staticToSelf = await storage.staticToSelf()
+            let marketToDirect = await storage.marketToDirect()
+            let marketToInter = await storage.marketToInter()
+            let marketToManager = await storage.marketToManager()
+            let marketToAllV4 = await storage.marketToAllV4()
+            let marketToV1 = await storage.marketToV1()
+            let marketToV2 = await storage.marketToV2()
+            let marketToV3 = await storage.marketToV3()
+            let marketToV4 = await storage.marketToV4()
+            // let withdrawToRedeposit = await storage.withdrawToRedeposit()
+            let withdrawToFrontAndBack = await storage.withdrawToFrontAndBack()
+            let withdrawToSelf = await storage.withdrawToSelf()
+            let curr_withdrawThreshold = await storage.withdrawThreshold()
+    
+            return {
+                trashAddress,
+                v4Balance,
+                platformA,
+                platformB,
+                platformC,
+                withdrawThreshold,
+                upgradeToV1Income,
+                upgradeToV2Amount,
+                upgradeToV2Income,
+                upgradeToV3Income,
+                upgradeToV4Income,
+                depositToPlatform,
+                depositToStatic,
+                depositToMarket,
+                platformToC,
+                platformToB,
+                platformToA,
+                staticToFrontSeventy,
+                staticToInviation,
+                staticToSelf,
+                marketToDirect,
+                marketToInter,
+                marketToManager,
+                marketToAllV4,
+                marketToV1,
+                marketToV2,
+                marketToV3,
+                marketToV4,
+                withdrawToFrontAndBack,
+                withdrawToSelf,
+                curr_withdrawThreshold
+            }
+        }
+    
+        async function marketLevelFourToMember() {
+            return await storage.getMarketLevelFourToMember()
+        }
+    
+        async function updateLevel(value) {
+            let sender = await getWeb3Account();
+            return await ngl.updateLevel("1", value, {
+                from: sender
+            });
+        }
+    
+        async function staticToSelf() {
+            return await storage.staticToSelf()
+        }
+    
+        async function withdrawPlatformA() {
+            let sender = await getWeb3Account();
+            return await ngl.withdrawPlatformA({
+                from: sender
+            });
+        }
+    
+        async function marketLevelFourToMember() {
+            return await storage.getMarketLevelFourToMember();
+        }
+        async function marketLevelThreeToMember() {
+            return await storage.getMarketLevelThreeToMember();
+        }
+        async function marketLevelTwoToMember() {
+            return await storage.getMarketLevelTwoToMember();
+        }
+        async function marketLevelOneToMember() {
+            return await storage.getMarketLevelOneToMember();
+        }
+        async function withdrawPlatformB() {
+            let sender = await getWeb3Account();
+            return await ngl.withdrawPlatformB({
+                from: sender
+            })
+        }
+    
+        async function withdrawPlatformC() {
+            let sender = await getWeb3Account();
+            return await ngl.withdrawPlatformC({
+                from: sender
+            });
+        }
+    
+        async function withdrawTrash() {
+            let sender = await getWeb3Account();
+            return await ngl.withdrawTrash({
+                from: sender
+            });
+        }
+    
+        // ================== LISTEN EVENT ===================
+    
+        function Deposit(callback) {
+            ngl.on("Deposit", callback)
+        }
+    
+        Deposit(() => {
+            getInfo();
+        })
+    
+        function Upgrade(callback) {
+            ngl.on("Upgrade", callback)
+        }
+    
+        Upgrade(() => {
+            getInfo();
+        })
+    
+        function WithDraw(callback) {
+            ngl.on("WithDraw", callback)
+        }
+    
+        WithDraw(() => {
+            getInfo();
+        })
+    
+        function RewardV4(callback) {
+            ngl.on("RewardV4", callback)
+        }
+    
+        RewardV4(() => {
+            getInfo();
+        })
+    
+    </script>
+    
+    <script>
+        function getTime(value) {
+            index = setInterval(function () {
+                value = value - 1;
+                // console.log(formatSeconds(value))
+                $("#times").html(formatSeconds(value))
+            }, 1000);  //反复执行函数本身
+
+        }
+
+        function formatAddress(account) {
+            return account.substring(0, 6) + "......" + account.slice(-6);
+        }
+
+        /**
+        * 格式化秒
+        * @param  int  value 总秒数
+        * @return  string result 格式化后的字符串
+        */
+        function formatSeconds(value) {
+            var theTime = parseInt(value);// 需要转换的时间秒
+            var theTime1 = 0;// 分
+            var theTime2 = 0;// 小时
+            var theTime3 = 0;// 天
+            if (theTime > 60) {
+                theTime1 = parseInt(theTime / 60);
+                theTime = parseInt(theTime % 60);
+                if (theTime1 > 60) {
+                    theTime2 = parseInt(theTime1 / 60);
+                    theTime1 = parseInt(theTime1 % 60);
+                    if (theTime2 > 24) {
+                        //大于24小时
+                        theTime3 = parseInt(theTime2 / 24);
+                        theTime2 = parseInt(theTime2 % 24);
+                    }
+                }
+            }
+            var result = '';
+            if (theTime > 0) {
+                miao = "" + parseInt(theTime);
+            } else {
+                miao = '00';
+            }
+            if (theTime1 > 0) {
+                fz = "" + parseInt(theTime1);
+            } else {
+                fz = "00";
+            }
+            if (theTime2 > 0) {
+                xs = parseInt(theTime2);
+            } else {
+                xs = '00';
+            }
+            // if(theTime3 > 0) {
+            //     result = ""+parseInt(theTime3)+"天"+result;
+            // }
+            return xs + ':' + fz + ':' + miao;
+        }
+
+
+    </script>
+
+
+    <script>
+        getInfo();
+        async function getInfo() {
+            lodin = layer.open({ type: 2 });
+            let a_balance = await platformABalance();
+            close(lodin);
+            $("#balance").html(``);
+        }
+         /**
+        沉余余额：${t_balance / 10 ** 18} BNB<br/>
+         $("#balance").html(`项目方A：${a_balance / 10 ** 18} BNB<br/>`);
+        */
+        function close(index) {
+            layer.close(index)
+        }
+
+        async function withdrawA() {
+            msg("正在打包，等待合约响应");
+            await withdrawPlatformA().then((ret) => {
+                ret.wait().then(() => {
+                    msg("提现成功")
+                })
+
+            }).catch(() => msg("失败"));
+            // msg("提现成功")
+        }
+        async function withdrawB() {
+            msg("正在打包，等待合约响应");
+            await withdrawPlatformB().then((ret) => {
+                ret.wait().then(() => {
+                    msg("提现成功")
+                })
+
+            }).catch(() => msg("失败"));
+
+            // msg("提现成功")
+        }
+        async function withdrawC() {
+            msg("正在打包，等待合约响应");
+            await withdrawPlatformC().then((ret) => {
+                ret.wait().then(() => {
+                    msg("提现成功")
+                })
+
+            }).catch(() => msg("失败"))
+
+        }
+
+        async function f_widthdrawTrash() {
+            msg("正在打包，等待合约响应");
+            await withdrawTrash().then((ret) => {
+                ret.wait().then(() => {
+                    msg("提现成功")
+                })
+
+            }).catch(() => msg("失败"))
+
+        }
+        function msg(txt) {
+            layer.open({
+                content: txt
+                , skin: 'msg'
+                , time: 2 //2秒后自动关闭
+                , style: 'background-color:#09C1FF; color:#fff; border:none;' //自定风格
+            });
+        }
+    </script>
+</body>
+
+</html>
