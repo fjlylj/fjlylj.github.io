@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            text-align: center;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px 10px;
+        }
+        .deposit {
+            margin-top: 50px;
+        }
+        .info{
+            margin-top: 50px;
+        }
+        .info table {
+            width: 100%;
+            padding: 0px 10px;
+        }
+
+        .info table tbody {
+            color:violet;
+        }
+    </style>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <div>
+        <header>
+            <span id="account"></span>
+        </header>
+
+        <div class="deposit">
+            <h2>质押</h2>
+            <br>
+            <input type="number" name="value" id="value" placeholder="质押数量">
+            <input type="date" name="depositTime" id="depositTime" placeholder="质押时间">
+            <button onclick="deposit()">质押</button>
+        </div>
+
+        <div class="info">
+            <h2>我的质押</h2>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <td>编号</td>
+                        <td>质押时间</td>
+                        <td>解锁时间</td>
+                        <td>总额</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody id="deposit_info">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
+    </script>
+    <script src="./web3/ABIDecoder/index.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
